@@ -8,12 +8,14 @@ const auth_rout=require('./routs/auth_routes');
 const user_rout=require('./routs/user_routes');
 const islogin = require('./middleware/islogin');
 const file=path.join(__dirname,'public')
-
+const cors=require('cors')
 //application level midlleware
+app.use(cors())
 app.use(express.urlencoded({extended:false}))
 app.use(express.static(file))
 app.use(cookieParser());//for access cookies in req
 app.set('view engine','ejs')
+app.use(express.json());
 
 
 

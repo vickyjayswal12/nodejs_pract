@@ -10,7 +10,7 @@ const register_controller=async(req,resp)=>{
     const hashed_passwd=await hashed_pass(req.body.password)
     // console.log(hashed_passwd);
     const data={
-        name:req.body.name,
+        username:req.body.username,
         email:req.body.email,
         password:hashed_passwd
     }
@@ -18,12 +18,14 @@ const register_controller=async(req,resp)=>{
     connection.query("insert into user set?",data,(err,res,fiels)=>{
         if(err)
         {
-          resp.send(err);
+          return resp.status(400).json({ error: err });
         }
         else{
         //   resp.send(res)
         // console.log(res,fiels);
-        resp.redirect('/login')
+        // resp.redirect('/login')
+        return resp.status(200).json({ message: "register successfully" });
+        
         }
     
       })
@@ -36,7 +38,7 @@ const register_controller=async(req,resp)=>{
 
 
  const login_controller=async(req,resp)=>{
-    // console.log(req.body)
+    console.log(req.body)
     // const hashed_passwd='$2b$10$XBGaYd9HFe9HWoHGDAf6pOzwX6uNqv1JiGMolDjbAdNMQotA1PV4m'
 
     connection.query("select * from user where email=?",[req.body.email],async (err,res,fiels)=>{
@@ -45,7 +47,8 @@ const register_controller=async(req,resp)=>{
           resp.send(err);
         }
         else{
-        // console.log(res[0].password);
+        // console.log(res.length);
+        if(res.length!=0){
           const myPlaintextPassword=req.body.password;
           const hashed_pass=res[0].password.toString()
           const result=await compare_pass(myPlaintextPassword,hashed_pass)
@@ -77,16 +80,27 @@ const register_controller=async(req,resp)=>{
 
              const token=await get_token(res);
              const refresh_token=await get_refresh_token(res)
-             
+             console.log("loging succes")
             // console.log(token)
              resp.cookie('token',token);
              resp.cookie('refresh_token',refresh_token);
 
-            resp.redirect('/');
+            // resp.redirect('/');
+            return resp.status(200).json({ message: "login successfully" });
+
           }
           else{
-            resp.send("invalid email or password")
+            // resp.send("invalid email or password")
+            return resp.status(400).json({ message: "invalid username or password" });
+            // console.log();
+
             // resp.redirect('/login');
+
+          }}
+          else{
+            console.log("login unsuccess");
+
+            return resp.status(400).json({ message: "invalid username or password" });
 
           }
         // resp.send("you have login successfully")

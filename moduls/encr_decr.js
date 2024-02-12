@@ -4,7 +4,7 @@ const hashed_pass= async (myPlaintextPassword)=>
 {
     try{
         const hashed_pass= await bcrypt.hash(myPlaintextPassword, saltRounds)
-    return hashed_pass;
+         return hashed_pass;
     }
     catch(err)
     {
