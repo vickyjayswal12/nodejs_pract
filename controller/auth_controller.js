@@ -18,7 +18,8 @@ const register_controller=async(req,resp)=>{
     connection.query("insert into user set?",data,(err,res,fiels)=>{
         if(err)
         {
-          return resp.status(400).json({ error: err });
+          // return resp.status(400).json({ error: err });
+          console.log(err);
         }
         else{
         //   resp.send(res)
@@ -86,7 +87,9 @@ const register_controller=async(req,resp)=>{
              resp.cookie('refresh_token',refresh_token);
 
             // resp.redirect('/');
-            return resp.status(200).json({ message: "login successfully" });
+            // return resp.status(200).json({ message: "login successfully" });
+            return resp.status(200).json({ user: res[0] });
+
 
           }
           else{

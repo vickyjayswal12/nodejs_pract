@@ -1,3 +1,5 @@
+const connection=require('../moduls/connection');
+
 const profile_controller=(req,resp)=>{
     const user=req.user;
     const id=req.params.id;

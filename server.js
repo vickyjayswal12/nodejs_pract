@@ -22,7 +22,7 @@ app.use(express.json());
 // routes
 app.use('/',static);
 app.use('/auth',auth_rout);
-app.use('/user',islogin,user_rout) //user all rout apply islogin middleware
+app.use('/user',user_rout) //user all rout apply islogin middleware
 
 // app.get('/',(req,resp)=>{
 //     resp.render('register')
